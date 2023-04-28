@@ -1,4 +1,4 @@
-## DIY Streetview with Krpano Panoramic Viewer
+## DIY Streetview for Krpano Panoramic Viewer
 This repository contains Python tools for linking panoramic images into a self-hosted virtual tour, resembling streetview and generating XML configuration files for the Krpano panoramic viewer. These tools allow you to create a custom Streetview-like experience by connecting and displaying your panoramic images.
 
 ### Scripts

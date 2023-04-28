@@ -13,6 +13,10 @@ The `test_shapefiles` directory contains two example shape files.
 * lines.shp - this is an example line shape file with the links between the images. It was created by connecting the image locations from `points.shp` in QGIS. 
 You might want to use these files as an imput to the `visualize_connections.py` script to learn how it works.
 
+### Viewer template
+The `viewer_template` folder contains KRPano viewer configuration files, that you need to publish on your webserver along with the XML files, created by the `panoramic_calc.py`. KRPano is a commercial software, and you will need to add `tour.js` file from it to the `viewer_template` folder to be able to use this solution. You might want to use a KRPano demo version for the initial test. It will display a watermark.
+
+
 ### Requirements
 To run these scripts, you'll need Python 3.x and the following packages:
 
@@ -46,8 +50,9 @@ The generated Krpano XML configuration files will contain the following informat
 
 ### Integration with Krpano Panoramic Viewer
 * Create a virtual tour in the KRPano by dropping your input images to `MAKE VTOUR (NORMAL) droplet.bat`.
-* Make a copy of the viewer_template folder to a convenient location
-* Copy the created image scenes from your tour to the `panos` folder in the copy of the viewer_template folder.
+* Make a copy of the `viewer_template` folder to a convenient location
+* Copy the `tour.js` file from the KRPano output folder to the copy of the `viewer_template` folder.
+* Copy the created image scenes from your tour to the `panos` folder in the copy of the `viewer_template` folder.
 * Copy the xml files, created by the `panoramic_calc.py` to the `scenes` folder in the copy of the viewer_template folder.
 * Start your local testing web server or copy the contents to the web server. Navigate to view.html?s=<name of the panoramic image>. KRPano will display you a specific panoramic image. You can then navigate between the scenes using hotspots, double click or using W,A,S,D keys on the keyboard.
 * You might want to create a web map, allowing the users to open the links to view.html?s=<name of the panoramic image> to view different panoramas. See the example on using ArcGIS Online at 

@@ -51,7 +51,7 @@ The generated Krpano XML configuration files will contain the following informat
 * Copy the xml files, created by the `panoramic_calc.py` to the `scenes` folder in the copy of the viewer_template folder.
 * Start your local testing web server or copy the contents to the web server. Navigate to view.html?s=<name of the panoramic image>. KRPano will display you a specific panoramic image. You can then navigate between the scenes using hotspots, double click or using W,A,S,D keys on the keyboard.
 * You might want to create a web map, allowing the users to open the links to view.html?s=<name of the panoramic image> to view different panoramas. See the example on using ArcGIS Online at 
-https://github.com/ngolosov/CollegeCourtStreetview You could implement a web map using any open source web mappling API such as Leaflet or OpenLayers.
+https://github.com/ngolosov/CollegeCourtStreetview You could implement a web map using any open source web mappling API of your choice, such as Leaflet or OpenLayers.
 
 
 ### License

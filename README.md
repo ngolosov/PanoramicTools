@@ -1,10 +1,17 @@
 ## DIY Streetview for Krpano Panoramic Viewer
 This repository contains Python tools for linking panoramic images into a self-hosted virtual tour, resembling streetview and generating XML configuration files for the Krpano panoramic viewer. These tools allow you to create a custom Streetview-like experience by connecting and displaying your panoramic images.
+Currently, the only tested camera model is Ricoh Theta S. If you want to use it with the images, captured by any other camera, you will need to edit Python scripts to change image resolution and names of the XMP image tags in the `convert_panoramas.py`. You're welcome to open an issue on GitHub if you need help with that.
 
 ### Scripts
-`convert_panoramas.py`: This script generates a point shapefile from a set of panoramic images using their geolocation data.
+`convert_panoramas.py`: This script generates a point shapefile from a set of panoramic images using their geolocation data and performs geometric correction of the images using Nona from Hugin tools.
 
 `visualize_connections.py`: This script connects the panoramic images based on a specified radius or a supplied line shapefile, connecting the location of the images. It also creates XML configuration files for the Krpano panoramic viewer containing metadata for each panoramic image point, such as the connected neighboring points and their azimuths.
+
+### Test shapefiles
+The `test_shapefiles` directory contains two example shape files. 
+* points.shp - this was file created by `convert_panoramas.py`script from the set of panoramic images. 
+* lines.shp - this is an example line shape file with the links between the images. It was created by connecting the image locations from `points.shp` in QGIS. 
+You might want to use these files as an imput to the `visualize_connections.py` script to learn how it works.
 
 ### Requirements
 To run these scripts, you'll need Python 3.x and the following packages:

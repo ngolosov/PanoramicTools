@@ -1,0 +1,19 @@
+<krpano version="1.18" title="College Court" onstart="startup();">
+
+	<include url="skin/vtourskin.xml" />
+	<include url="gps_calc.xml" />
+
+	<!-- set skin settings: bingmaps? gyro? thumbnails? tooltips? -->
+	<skin_settings title="true"
+	               loadscene_flags="MERGE"
+	               loadscene_blend="BLEND(0.5)"
+	               controlbar_offset="20"
+	               />
+
+	
+	<action name="startup">
+	txtadd(startscene,'scenes/',get(s),'.xml');
+			loadpano(get(startscene), null, MERGE);
+	</action>
+
+</krpano>

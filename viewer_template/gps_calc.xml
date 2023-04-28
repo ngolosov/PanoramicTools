@@ -1,0 +1,275 @@
+﻿<krpano>
+<plugin name="dblclick" alturl="plugins/cl.js" keep="true" 
+	ondblclick="
+	screentosphere(mouse.x,mouse.y,ath_dbcl,atv_dbcl);	
+	if(atv_dbcl LT 15,
+		set(hit_load,true);set(direction,fw);	dblclick_activate_next_closest_ath_point(ath_dbcl);
+	);
+	
+	"
+	 />
+
+<events name="gps" keep="true" 
+	onnewpano="	delayedcall(0.1,create_hotspots(); );"
+	onkeydown="action(keypressed);"
+	onviewchange="mod(cur_hlookat, get(view.hlookat), 360); 
+		if (cur_hlookat LT 0, add(cur_hlookat, 360); ); 
+		
+			copy(with_north,hotspot.count); 
+			for (set(i, 0), i LT hotspot.count, inc(i), 
+				if (hotspot[get(i)].style == 'streetview_airhotspot', 
+					set(hotspot_name, get(hotspot[get(i)].name)); 
+					gpshotspots_orientate(get(hotspot_name), get(cur_hlookat), get(hotspot[get(i)].vlimit)); 
+				,
+					if (hotspot[get(i)].style == 'streetview_north', 		
+						set(hotspot_name, get(hotspot[get(i)].name)); 				
+						gpshotspots_orientate(get(hotspot_name), get(cur_hlookat), get(hotspot[get(i)].vlimit)); 
+					);
+				); 
+			);" 
+	/>
+
+					
+		<action name="keypressed">	 
+    	    	 		
+	       	if(keycode == 87,set(hit_load,true);	set(direction,fw);	activate_next_closest_ath_point();	);
+	    	if(keycode == 83,set(hit_load,true);	set(direction,bw);	activate_next_closest_ath_point();	);
+	    	if(keycode == 32,set(hit_load,false);	activate_next_closest_ath_point();	);
+	    	
+    	
+	</action>							
+
+	<action name="dblclick_activate_next_closest_ath_point">	 
+    	
+    		mod(i_lookat, %1, 360);if (i_lookat LT 0, add(i_lookat, 360); ); 
+    	
+    	set(act_scene,get(startscene));
+    	
+    	if(gps_data[get(act_scene)].total EQ 1,
+    		set(ath_closest_point,get(gps_data[get(act_scene)].point[s1].pt));    		    		
+    	);
+    	
+    	if(gps_data[get(act_scene)].total GT 1,    		
+    		
+    		set(ath_closest_point,get(gps_data[get(act_scene)].point[s1].pt));
+    		
+    		partial_circle_angle_distance(i_lookat,gps_data[get(act_scene)].point[s1].pt_bear);
+				copy(closest_pcad,par_cir_ang_dist);    		
+				set(cl_scene_idx,1);    		
+   		
+
+    		for (set(i, 2), i LE gps_data[get(act_scene)].total, inc(i),
+    		txtadd(next_candidate_loop,'s',get(i));
+    				  		  	
+			    	partial_circle_angle_distance(i_lookat,get(gps_data[get(act_scene)].point[get(next_candidate_loop)].pt_bear));			    	
+			    	
+			    	copy(candidate_pcad,par_cir_ang_dist);
+			
+			    				    	
+			    	if(candidate_pcad LT closest_pcad,
+			
+			    			set(ath_closest_point,get(gps_data[get(act_scene)].point[get(next_candidate_loop)].pt));
+			    			copy(closest_pcad,candidate_pcad);
+			    			set(cl_scene_idx,get(i));    		
+			    		);
+    		);
+    	);
+    	
+			
+    	
+    	if(hit_load,hideTooltip();
+txtadd(linked,'scenes/',get(ath_closest_point),'.xml');
+loadpano(get(linked), null, MERGE|KEEPVIEW , BLEND(0.5));
+set(startscene,get(linked));
+    		,
+    		
+    		);
+	</action>	
+
+
+							
+	<action name="activate_next_closest_ath_point">	 
+    	if(direction EQ fw,
+    		mod(i_lookat, get(view.hlookat), 360);if (i_lookat LT 0, add(i_lookat, 360); ); 
+    		,
+    		set(i_lookat, get(view.hlookat)); add(i_lookat,180); mod(i_lookat, 360);if (i_lookat LT 0, add(i_lookat, 360); ); 
+    		);
+
+    	
+    	set(act_scene,get(startscene));
+
+    	
+    	if(gps_data[get(act_scene)].total EQ 1,
+    		set(ath_closest_point,get(gps_data[get(act_scene)].point[s1].pt));    		    		
+    	);
+    	
+    	if(gps_data[get(act_scene)].total GT 1,    		
+    		
+    		set(ath_closest_point,get(gps_data[get(act_scene)].point[s1].pt));
+    		
+    		partial_circle_angle_distance(i_lookat,gps_data[get(act_scene)].point[s1].pt_bear);
+				copy(closest_pcad,par_cir_ang_dist);    		
+				set(cl_scene_idx,1);    		
+    		
+ 
+    		
+    		for (set(i, 2), i LE gps_data[get(act_scene)].total, inc(i),
+    		txtadd(next_candidate_loop,'s',get(i));
+   
+    				  		  	
+			    	partial_circle_angle_distance(i_lookat,get(gps_data[get(act_scene)].point[get(next_candidate_loop)].pt_bear));			    	
+			   
+			    	copy(candidate_pcad,par_cir_ang_dist);
+			    	
+			    				    	
+			    	if(candidate_pcad LT closest_pcad,
+			    
+			    			set(ath_closest_point,get(gps_data[get(act_scene)].point[get(next_candidate_loop)].pt));
+			    			copy(closest_pcad,candidate_pcad);
+			    			set(cl_scene_idx,get(i));    		
+			    		);
+    		);
+    	);
+    	
+		    	
+    	if(hit_load,
+    		
+txtadd(linked,'scenes/',get(ath_closest_point),'.xml');
+loadpano(get(linked), null, MERGE|KEEPVIEW , BLEND(0.5));
+set(startscene,get(linked));
+    		,
+    		
+    		);
+	</action>	
+
+
+	<action name="partial_circle_angle_distance">	 
+    	
+    	
+    	
+    	add(angle,%1,180);
+    	sub(angle,%2);    	
+    	
+    	add(angle,710280);mod(angle,360);
+    	sub(angle,180);
+    	Math.abs(par_cir_ang_dist,angle);    	
+    	roundval(par_cir_ang_dist,2);
+	    	    	
+	</action>	
+
+
+
+
+	<layer name="textbox" url="images/textfield.png" align="top" x="0" y="5" width="1900" height="900" visible="false" keep="true" scale9grid="5|5|270|185">		
+		
+		<layer name="textmask" type="container" align="lefttop" x="5" y="5" width="1860" height="890" maskchildren="true">
+			<layer name="text" url="%SWFPATH%/plugins/textfield.swf" selectable="true" handcursor="true" children="true" align="lefttop" x="10" y="10" width="1840" autoheight="true" capture="true" background="false" border="false" html="" css="color:#000000; font-family:Arial; font-size:14;" />
+		</layer>
+		
+		<layer name="scrollbar" type="container" bgcolor="0x000000" bgalpha="0.3" align="righttop" x="5" y="5" zorder="1" width="19" height="890" />
+		
+		<layer name="scrollup" url="images/dirbutton.png" align="righttop" x="24" y="5" zorder="2" rotate="-90" crop="0|0|19|19" onovercrop="0|19|19|19" ondowncrop="0|38|19|19"
+		       ondown="asyncloop(pressed, sub(ny,layer[text].y,10); add(ny,+8); sub(th,870,layer[text].pixelheight); if(ny GT 0, set(ny,0)); div(sy,ny,th); mul(sy,133); add(sy,24); copy(layer[scrollslider].y,sy); add(ny,10); copy(layer[text].y,ny); );"
+		       />
+
+		<layer name="scrolldown" url="images/dirbutton.png" align="rightbottom" x="24" y="5" zorder="2" rotate="+90" crop="0|0|19|19" onovercrop="0|19|19|19" ondowncrop="0|38|19|19"
+		       ondown="asyncloop(pressed, sub(ny,layer[text].y,10); add(ny,-8); sub(th,870,layer[text].pixelheight); if(ny LT th, copy(ny,th)); div(sy,ny,th); mul(sy,133); add(sy,24); copy(layer[scrollslider].y,sy); add(ny,10); copy(layer[text].y,ny); );"
+		       />
+
+		<layer name="scrollslider" url="images/sliderbutton.png" align="righttop" x="5" y="24" zorder="2" crop="0|0|19|19" onovercrop="0|19|19|19" ondowncrop="0|38|19|19" 
+		       ondown="copy(cy,y);copy(sy,mouse.stagey);dragging();" 
+		       dragging="if(pressed, sub(dy,mouse.stagey,sy); add(ny,cy,dy); if(ny LT 24, set(ny,24)); if(ny GT 857, set(ny,857)); copy(y,ny); sub(ty,ny,24); div(ty,133); sub(th,170,layer[text].pixelheight); mul(ty,th); add(ty,10); copy(layer[text].y,ty); delayedcall(0,dragging()); );"
+		       />
+	</layer>
+
+
+<style name="streetview_north" 			url="images/north2.png" 	keep="true" edge="bottom" distorted="true" inverserotation="true" ox="0" oy="0" d="50" alpha="0.8" zorder="2" shown="true" vlimit="-91" pixelhittest="true" north="0"	scale="0.5" enabled="false"/>
+<style name="streetview_airhotspot" url="images/arrow2.png" 						edge="bottom" distorted="true" inverserotation="true" ox="0" oy="0" d="50" alpha="0.8" zorder="2" shown="true" vlimit="-91" pixelhittest="true" 
+	onclick="gpshotspots_click(get(name));" onhover="" 
+	onover="set(old_alpha,get(alpha));set(alpha, 1);"  
+	onout="set(alpha, get(old_alpha));" 
+	/>
+<style name="normal_airhotspot" url="images/default_hotspot.png" distorted="true" alpha="0.8" zorder="2" scale="0.6" atv="20" 
+	onclick="gpshotspots_click(get(name));" 	
+	onover="set(alpha, 1);" 
+	onout="set(alpha, 0.8);" 
+	/>	
+
+
+<action name="gpshotspots_click">hideTooltip();
+txtadd(linked,'scenes/',get(linkedscene),'.xml');
+loadpano(get(linked), null, MERGE|KEEPVIEW , BLEND(0.5));
+set(startscene,get(linked));
+</action>
+
+<action name="gpshotspots_orientate">
+	set(cur_hlookat, %2); 
+	copy(cur_vlookat, view.vlookat); 
+	sub(rxang, -90, get(view.vlookat)); 
+	sub(rzang, get(hotspot[%1].north), get(cur_hlookat)); 
+	
+	set(hotspot[%1].ath, get(cur_hlookat));
+	
+	add(rzang,180);
+		
+	if (cur_vlookat GT %3, set(hotspot[%1].atv, get(cur_vlookat)); add(hotspot[%1].atv, 30); );
+	
+	
+	
+	set(hotspot[%1].rx, get(rxang)); set(hotspot[%1].rz, get(rzang)); 
+	
+	copy(vlookat_dif, view.vlookat); 
+	
+	Math.abs(vlookat_dif); mul(vlookat_dif, Math.PI); 
+	div(vlookat_dif, 180); Math.cos(vlookat_dif); mul(vlookat_dif, 37); sub(hotspot[%1].rx, vlookat_dif); sub(cur_ox, get(cur_hlookat), get(hotspot[%1].north)); mul(cur_ox, Math.PI); 
+	div(cur_ox, 180); Math.sin(cur_ox); mul(cur_ox, get(hotspot[%1].d)); sub(cur_oy, get(cur_hlookat), get(hotspot[%1].north)); 
+	mul(cur_oy, Math.PI); 
+	div(cur_oy, 180); 
+	Math.cos(cur_oy); 
+	mul(cur_oy, get(hotspot[%1].d)); 
+	
+	
+	if(hotspot[%1].style == 'streetview_north',	
+		set(hotspot[%1].ox, 0);
+		set(hotspot[%1].oy, -60);	
+		
+		
+				,
+		set(hotspot[%1].ox, 0);
+		set(hotspot[%1].oy, -60);	
+		);
+	
+</action>
+
+<action name="create_hotspots">
+
+txtreplace(startscene, '.xml', '');
+txtreplace(startscene, 'scenes/', '');
+set(act_scene,get(startscene));
+
+
+ for(set(hsp_nr,1), hsp_nr LE gps_data[get(act_scene)].total, inc(hsp_nr),
+
+ 	txtadd(hotspot_name,dynamic_hotspot_,get(hsp_nr)); 	 	
+ 	txtadd(hotspot_nr_bear,'s',get(hsp_nr));
+ 	addhotspot(get(hotspot_name));
+
+ 		hotspot[get(hotspot_name)].loadstyle(streetview_airhotspot); 	 	
+
+ 	 	set(hotspot[get(hotspot_name)].north,get(gps_data[get(act_scene)].point[get(hotspot_nr_bear)].pt_bear));
+		
+	 	set(hotspot[get(hotspot_name)].linkedscene,get(gps_data[get(act_scene)].point[get(hotspot_nr_bear)].pt));
+	 	set(hotspot[get(hotspot_name)].dist,get(gps_data[get(act_scene)].point[get(hotspot_nr_bear)].pt_dist)); 	
+ );
+		
+	
+ 		addhotspot(dynamic_north); 	 		
+ 		hotspot[dynamic_north].loadstyle(streetview_north); 	 	
+ 		
+ invalidatescreen();
+	
+	
+</action>
+
+
+</krpano>

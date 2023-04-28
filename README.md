@@ -2,7 +2,7 @@
 This repository contains Python tools for linking panoramic images into a self-hosted virtual tour, resembling streetview and generating XML configuration files for the Krpano panoramic viewer. These tools allow you to create a custom Streetview-like experience by connecting and displaying your panoramic images.
 
 ### Scripts
-`create_point_shapefile.py`: This script generates a point shapefile from a set of panoramic images using their geolocation data.
+`convert_panoramas.py`: This script generates a point shapefile from a set of panoramic images using their geolocation data.
 
 `visualize_connections.py`: This script connects the panoramic images based on a specified radius or a supplied line shapefile, connecting the location of the images. It also creates XML configuration files for the Krpano panoramic viewer containing metadata for each panoramic image point, such as the connected neighboring points and their azimuths.
 

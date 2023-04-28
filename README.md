@@ -4,7 +4,7 @@ This repository contains Python tools for linking panoramic images into a self-h
 ### Scripts
 `create_point_shapefile.py`: This script generates a point shapefile from a set of panoramic images using their geolocation data.
 
-`visualize_connections.py`: This script visualizes connections between the points based on a specified radius or a set of line features. It also creates XML configuration files for the Krpano panoramic viewer containing metadata for each panoramic image point, such as the connected neighboring points and their azimuths.
+`visualize_connections.py`: This script connects the panoramic images based on a specified radius or a supplied line shapefile, connecting the location of the images. It also creates XML configuration files for the Krpano panoramic viewer containing metadata for each panoramic image point, such as the connected neighboring points and their azimuths.
 
 ### Requirements
 To run these scripts, you'll need Python 3.x and the following packages:

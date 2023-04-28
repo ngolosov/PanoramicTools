@@ -32,13 +32,13 @@ Select an output folder where the Krpano XML configuration files will be saved.
 Click "Run" to visualize the connections and generate the Krpano XML configuration files.
 The generated Krpano XML configuration files will contain the following information for each point:
 
-Point name
-Names of connected neighboring points
-Azimuths of the connections
-The connections between the points will be visualized on a matplotlib plot embedded in the GUI.
+* Point name
+* Names of connected neighboring points
+* Azimuths of the connections
+* The connections between the points will be visualized on a matplotlib plot embedded in the GUI.
 
-Integration with Krpano Panoramic Viewer
-After generating the Krpano XML configuration files, you can use them to set up the Krpano panoramic viewer for your DIY Streetview project. You need to place the created XML files to the `scenes` catalog within the viewer folder.
+### Integration with Krpano Panoramic Viewer
+After generating the Krpano XML configuration files, you can use them to set up the Krpano panoramic viewer for your DIY Streetview project. You need to place the created XML files to the `scenes` catalog within the viewer folder. The viewer configuration files will be published separately.
 
-License
+### License
 This project is licensed under the MIT License

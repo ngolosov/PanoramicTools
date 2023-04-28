@@ -1,6 +1,6 @@
 ## DIY Streetview for Krpano Panoramic Viewer
 This repository contains Python tools for linking panoramic images into a self-hosted virtual tour, resembling streetview and generating XML configuration files for the Krpano panoramic viewer. These tools allow you to create a custom Streetview-like experience by connecting and displaying your panoramic images.
-Currently, the only tested camera model is Ricoh Theta S. If you want to use it with the images, captured by any other camera, you will need to edit Python scripts to change image resolution and names of the XMP image tags in the `convert_panoramas.py`. You're welcome to open an issue on GitHub if you need help with that.
+**Currently, the only tested camera model is Ricoh Theta S**. If you want to use it with the images, captured by any other camera, you will need to edit Python scripts to change image resolution and names of the XMP image tags in the `convert_panoramas.py`. You're welcome to open an issue on GitHub if you need help with that.
 
 ### Scripts
 `convert_panoramas.py`: This script generates a point shapefile from a set of panoramic images using their geolocation data and performs geometric correction of the images using Nona from Hugin tools.
@@ -30,6 +30,8 @@ You can install them using pip:
 `pip install geopandas matplotlib pandas PyQt5 shapely`
 
 ### Usage
+Prior to using the scripts, you will need a set of images, collected by the Ricoh Theta S panoramic camera. The images should have GPS location stored in their EXIF tag. It means that you have to collect the images when the camera is connected to the smartphone with the Ricoh Theta S application running, or use a Python script running on your smartphone to trigger the camera and update the GPS location.
+
 #### 1. Create Point Shapefile and apply geometric correction to the images
 Run create_point_shapefile.py to generate a point shapefile using the geolocation data from your set of panoramic images. You'll need to provide the script with the appropriate input parameters (e.g., input image file folder, output image folder, location to save the output point shapefile).
 

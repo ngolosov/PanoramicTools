@@ -19,10 +19,10 @@ You can install them using pip:
 `pip install geopandas matplotlib pandas PyQt5 shapely`
 
 ### Usage
-1. Create Point Shapefile and apply geometric correction to the images
+#### 1. Create Point Shapefile and apply geometric correction to the images
 Run create_point_shapefile.py to generate a point shapefile using the geolocation data from your set of panoramic images. You'll need to provide the script with the appropriate input parameters and files (e.g., image file paths and geolocation data).
 
-2. Visualize Connections and Generate Krpano XML Configuration Files
+#### 2. Visualize Connections and Generate Krpano XML Configuration Files
 Run the visualize_connections.py script. A graphical user interface (GUI) will open, allowing you to:
 
 Specify whether to use a search radius or line shapefile for determining connections between points.
